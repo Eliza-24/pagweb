@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudaderas Kids - Junior D'Flores</title>
+
+  <!-- Fuentes y estilos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body { font-family: 'verdana', sans-serif; margin:0; padding:0; background:#fdfdfd; color:#333; line-height:1.6; }
+
+    /* ====== ENCABEZADO CURVADO CORAL ====== */
+    header {
+      position: relative;
+      background: #fff;
+      overflow: visible;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding-bottom: 20px;
+    }
+      .fondo-linea {
+      position: absolute;
+      top: 0;
+      left: 0;          /* Limita el SVG al borde izquierdo */
+      width: 100%;      /* No sobresalga del header */
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .fondo-linea path {
+      fill: none;
+      stroke: url(#gradCoral);
+      stroke-width: 60;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-opacity: 0.9;
+    }
+    .titulo-logo {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+    .titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 4em;
+      letter-spacing: 5px;
+      color: #222;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.15);
+      margin: 0;
+    }
+    .logo img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* ====== MENÚ ====== */
+    nav {
+      background: #d86c6c;
+      padding: 12px 0;
+      text-align: center;
+      position: relative;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+    nav a {
+      color: #fff;
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: 0.3s;
+      position: relative;
+      text-transform: uppercase;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #FFE8DB;
+      transition: width 0.3s;
+    }
+    nav a:hover {
+      color: #FFE8DB;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ====== SECCIONES ====== */
+    section { padding:60px 20px; max-width:1100px; margin:auto; }
+    section h2 { text-align:center; margin-bottom:25px; font-size:2.2em; }
+    section h2::after { content:""; display:block; width:80px; height:4px; background:#E07A7A; margin:10px auto 0; border-radius:2px; }
+
+    .productos { display:grid; grid-template-columns:repeat(3, 1fr); gap:30px; }
+    .card { background:transparent; padding:0; box-shadow:none; text-align:center; cursor:pointer; transition:0.3s; }
+    .card:hover { transform:translateY(-5px); }
+    .card img { max-width:80%; height:auto; border-radius:12px; object-fit:cover; margin:0 auto; display:block; }
+    .card h3 { margin:10px 0 5px; }
+    .precio { font-weight:600; color:#E07A7A; }
+    .back-btn { display:block; margin:40px auto 0; padding:12px 25px; background:#E07A7A; color:#fff; border-radius:10px; text-decoration:none; text-align:center; width:max-content; }
+    .back-btn:hover { background:#F28C8C; }
+
+    /* ====== MODAL ====== */
+    .modal { display:none; position:fixed; z-index:2000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); overflow:auto; padding-top:40px; }
+    .modal-content { background:#fff; margin:auto; padding:20px; border-radius:15px; max-width:900px; display:flex; flex-direction:row; gap:20px; position:relative; flex-wrap:wrap; }
+    .close { position:absolute; top:10px; right:20px; font-size:28px; cursor:pointer; }
+    .close:hover { color:#E07A7A; }
+    .carousel { position:relative; flex:1; min-width:250px; text-align:center; }
+    .carousel img { width:80%; max-width:400px; height:auto; border-radius:12px; object-fit:cover; display:block; margin:0 auto; }
+    .prev, .next { cursor:pointer; position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:10px; border-radius:50%; font-size:20px; user-select:none; }
+    .prev { left:10px; }
+    .next { right:10px; }
+    .modal-details { flex:1; min-width:250px; }
+    .modal-details h3 { margin:6px 0; }
+    .modal-details p { margin:6px 0; color:#666; }
+    .modal-details .precio { font-size:1.3em; font-weight:bold; color:#E07A7A; margin:12px 0; }
+    .colors, .sizes { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+    .color-swatch { width:50px; height:50px; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.15); transition:0.2s; display:inline-block; }
+    .color-swatch.active { outline:3px solid #E07A7A; }
+    .color-swatch img { width:100%; height:100%; object-fit:cover; display:block; }
+    .size-btn { padding:8px 12px; border:1px solid #ddd; border-radius:8px; background:#fff; cursor:pointer; font-weight:600; transition:0.2s; }
+    .size-btn.active { background:#E07A7A; color:#fff; border-color:#E07A7A; }
+
+    footer { background:#E07A7A; color:#fff; text-align:center; padding:40px 20px; margin-top:40px; position:relative; }
+
+    /* ====== REDES FLOTANTES ====== */
+    .social-fixed {
+      position: fixed;
+      right: 20px;
+      top: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 999;
+    }
+    .social-fixed a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+      color: #F08787;
+      border-radius: 50%;
+      text-decoration: none;
+      font-size: 1.5em;
+      transition:0.3s;
+    }
+    .social-fixed a:hover { color:#d86c6c; }
+    .social-fixed a img { width:50px; height:50px; object-fit:contain; }
+
+    #scrollTop { position:fixed; bottom:20px; right:20px; z-index:999; display:none; align-items:center; justify-content:center; width:50px; height:50px; background:#F08787; color:#fff; border-radius:50%; font-size:1.5em; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,0.2); transition:0.3s; }
+    #scrollTop:hover { background:#FFE8DB; color:#333; }
+
+    /* ====== RESPONSIVIDAD ====== */
+    @media (max-width:1024px) { .productos { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width:800px){
+      .modal-content { flex-direction: column; max-width:92%; }
+      nav a { margin:0 8px; }
+      .productos { grid-template-columns:1fr; }
+    }
+    @media (max-width:500px){
+      .logo img { width:120px; height:120px; }
+      .titulo { font-size:2.2em; }
+      nav a { font-size:0.95em; display:block; margin:5px 0; }
+      .card img { max-width:95%; }
+      .modal img { width:100%; max-width:100%; }
+      .modal-details { width:100%; margin-top:15px; }
+      .color-swatch { width:40px; height:40px; }
+      .size-btn { padding:6px 10px; font-size:0.9em; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg class="fondo-linea" viewBox="0 0 1600 180" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gradCoral" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#FF8C8C" stop-opacity="0.1"/>
+        <stop offset="15%" stop-color="#FF8C8C" stop-opacity="0.5"/>
+        <stop offset="50%" stop-color="#FF8C8C" stop-opacity="0.6"/>
+        <stop offset="85%" stop-color="#FF8C8C" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#FF8C8C" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,140 C300,10 600,170 900,90 S1300,60 1600,140" />
+  </svg>
+
+  <div class="titulo-logo">
+    <h1 class="titulo">Junior D'Flores</h1>
+    <div class="logo">
+      <img src="logo/logo.png" alt="Logo de la tienda">
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="index.html">Inicio</a>
+  <a href="mujer.html">Mujer</a>
+  <a href="hombre.html">Hombre</a>
+  <a href="kids.html">Kids</a>
+  <a href="ofertas.html">Ofertas</a>
+</nav>
+
+<section>
+  <h2>Sudaderas Kids</h2>
+  <div class="productos">
+    <!-- Cards de productos -->
+    <div class="card" data-nombre="Sudadera Kids" data-descripcion="CHAQUETA TEDDY." data-precio="$155" data-imagenes="imagenes/TC1.jpg,imagenes/TC2.jpg,imagenes/TC3.jpg,imagenes/TC4.jpg,imagenes/TC5.jpg" data-tallas="CH:6-8,M:8-10,G:10-12">
+      <img src="imagenes/TC2.jpg" alt="Sudadera Kids">
+      <h3>CHAQUETA</h3>
+      <p>CHAQUETA TEDDY</p>
+      <p class="precio">$155</p>
+    </div>
+    <div class="card" data-nombre="Sudadera Kids" data-descripcion="CHAQUETA TEDDY." data-precio="$155" data-imagenes="imagenes/CC.jpg,imagenes/CC1.jpg,imagenes/CC2.jpg,imagenes/C3.jpg,imagenes/CC4.jpg,imagenes/CC5.jpg" data-tallas="CH:6-8,M:8-10,G:10-12">
+      <img src="imagenes/CC1.jpg" alt="Sudadera Kids">
+      <h3>CHAQUETA</h3>
+      <p>CHAQUETA TEDDY</p>
+      <p class="precio">$155</p>
+    </div>
+    <div class="card" data-nombre="Sudadera Kids" data-descripcion="SUDADERA RAYAS OSO." data-precio="$95" data-imagenes="imagenes/O.jpg,imagenes/O1.jpg,imagenes/O2.jpg,imagenes/O3.jpg,imagenes/O4.jpg,imagenes/O5.jpg,imagenes/O6.jpg" data-tallas="CH:6-8,M:8-10,G:10-12">
+      <img src="imagenes/O1.jpg" alt="Sudadera Kids">
+      <h3>Sudadera</h3>
+      <p>SUDADERA RAYAS OSO</p>
+      <p class="precio">$95</p>
+    </div>
+  </div>
+</section>
+
+<a class="back-btn" href="kids.html">← Regresar</a>
+
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="carousel">
+      <img id="modalImg" src="" alt="">
+      <a class="prev">&#10094;</a>
+      <a class="next">&#10095;</a>
+    </div>
+    <div class="modal-details">
+      <h3 id="modalNombre"></h3>
+      <p id="modalDescripcion"></p>
+      <div><strong>Imágenes:</strong><div class="colors" id="colorContainer"></div></div>
+      <div><strong>Tallas:</strong><div class="sizes" id="sizeContainer"></div></div>
+      <p class="precio" id="modalPrecio"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="social-fixed">
+    <a href="https://www.facebook.com/juniordflorescompany" target="_blank"><img src="logo/facebook.png" alt="Facebook"></a>
+    <a href="https://www.tiktok.com/@juniordflores?_t=ZS-8zcmsfaUGH4&_r=1" target="_blank"><img src="logo/tik-tok.png" alt="TikTok"></a>
+    <a href="tel:55 7981 3965"><img src="logo/whatsapp (2).png" alt="Teléfono"></a>
+  </div>
+</footer>
+
+<a href="#" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+<script>
+  const scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => { scrollTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  scrollTopBtn.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top:0, behavior:'smooth' }); });
+
+  const modal = document.getElementById("productModal");
+  const modalImg = document.getElementById("modalImg");
+  const modalNombre = document.getElementById("modalNombre");
+  const modalDescripcion = document.getElementById("modalDescripcion");
+  const modalPrecio = document.getElementById("modalPrecio");
+  const colorContainer = document.getElementById("colorContainer");
+  const sizeContainer = document.getElementById("sizeContainer");
+  const closeBtn = document.querySelector(".close");
+  let images = [], currentIndex = 0;
+
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      modal.style.display = "block";
+      modalNombre.textContent = card.dataset.nombre;
+      modalDescripcion.textContent = card.dataset.descripcion;
+      modalPrecio.textContent = card.dataset.precio;
+
+      images = card.dataset.imagenes.split(",");
+      currentIndex = 0;
+      modalImg.src = images[currentIndex];
+
+      colorContainer.innerHTML = "";
+      images.forEach((imgSrc, index) => {
+        const sw = document.createElement("div");
+        sw.className = "color-swatch";
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        sw.appendChild(img);
+
+        sw.addEventListener("click", () => {
+          currentIndex = index;
+          modalImg.src = images[currentIndex];
+          colorContainer.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
+          sw.classList.add('active');
+        });
+
+        if(index === 0) sw.classList.add('active');
+        colorContainer.appendChild(sw);
+      });
+
+      sizeContainer.innerHTML = "";
+      (card.dataset.tallas||"").split(",").forEach(t=>{
+        if(t.trim()){
+          const btn = document.createElement("button");
+          btn.className = "size-btn";
+          btn.textContent = t;
+          btn.addEventListener("click", ()=>{
+            sizeContainer.querySelectorAll('.size-btn').forEach(x=>x.classList.remove('active'));
+            btn.classList.add('active');
+          });
+          sizeContainer.appendChild(btn);
+        }
+      });
+    });
+  });
+
+  document.querySelector(".prev").addEventListener("click", ()=>{
+    if(images.length > 0){ currentIndex = (currentIndex - 1 + images.length) % images.length; modalImg.src = images[currentIndex]; }
+  });
+  document.querySelector(".next").addEventListener("click", ()=>{
+    if(images.length > 0){ currentIndex = (currentIndex + 1) % images.length; modalImg.src = images[currentIndex]; }
+  });
+
+  closeBtn.onclick = ()=> modal.style.display = "none";
+  window.onclick = e => { if(e.target == modal){ modal.style.display = "none"; } };
+</script>
+
+</body>
+</html>

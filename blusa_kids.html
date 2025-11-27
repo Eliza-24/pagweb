@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Blusas Kids - Junior D'Flores</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fuentes y estilos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'verdana', sans-serif; margin:0; padding:0; background:#fdfdfd; color:#333; line-height:1.6; }
+
+    /* ====== ENCABEZADO CURVADO CORAL ====== */
+    header {
+      position: relative;
+      background: #fff;
+      overflow: visible;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding-bottom: 20px;
+    }
+     .fondo-linea {
+      position: absolute;
+      top: 0;
+      left: 0;          /* Limita el SVG al borde izquierdo */
+      width: 100%;      /* No sobresalga del header */
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .fondo-linea path {
+      fill: none;
+      stroke: url(#gradCoral);
+      stroke-width: 60;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-opacity: 0.9;
+    }
+    .titulo-logo {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+    .titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 4em;
+      letter-spacing: 5px;
+      color: #222;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.15);
+      margin: 0;
+    }
+    .logo img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* ====== MENÚ ====== */
+    nav {
+      background: #FF8C8C;
+      padding: 12px 0;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 18px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: 0.3s;
+      position: relative;
+      text-transform: uppercase;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #FFE8DB;
+      transition: width 0.3s;
+    }
+    nav a:hover { color: #FFE8DB; }
+    nav a:hover::after { width: 100%; }
+
+    /* ====== SECCIONES ====== */
+    section { padding:60px 20px; max-width:1100px; margin:auto; }
+    section h2 { text-align:center; margin-bottom:25px; font-size:2.2em; position:relative; }
+    section h2::after { content:""; display:block; width:80px; height:4px; background:#F08787; margin:10px auto 0; border-radius:2px; }
+
+    /* ====== PRODUCTOS ====== */
+    .productos { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:30px; }
+    .card { background:transparent; text-align:center; transition:0.3s; cursor:pointer; }
+    .card:hover { transform:translateY(-5px); }
+    .card img { max-width:80%; height:auto; border-radius:12px; object-fit:cover; margin:0 auto; display:block; }
+    .card h3 { margin:10px 0 5px; }
+    .precio { font-weight:600; color:#E07A7A; }
+    .back-btn { display:block; margin:50px auto 0; padding:12px 25px; background:#E07A7A; color:#fff; border-radius:10px; text-decoration:none; text-align:center; width:max-content; font-weight:600; transition:0.3s; }
+    .back-btn:hover { background:#F28C8C; }
+
+    /* ====== MODAL ====== */
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; overflow:auto; padding-top:40px; }
+    .modal-content { background:#fff; margin:auto; padding:20px; border-radius:15px; max-width:900px; display:flex; flex-direction:row; gap:20px; position:relative; flex-wrap:wrap; }
+    .close { position:absolute; top:10px; right:20px; font-size:28px; cursor:pointer; }
+    .close:hover { color:#E07A7A; }
+    .carousel { position:relative; flex:1; min-width:250px; text-align:center; }
+    .carousel img { width:80%; max-width:400px; height:auto; border-radius:12px; object-fit:cover; display:block; margin:0 auto; }
+    .prev, .next { cursor:pointer; position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:10px; border-radius:50%; font-size:20px; user-select:none; }
+    .prev { left:10px; }
+    .next { right:10px; }
+    .modal-details { flex:1; min-width:250px; }
+    .modal-details h3 { margin:6px 0; }
+    .modal-details p { margin:6px 0; color:#666; }
+    .modal-details .precio { font-size:1.3em; font-weight:bold; color:#E07A7A; margin:12px 0; }
+    .colors, .sizes { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+    .color-swatch { width:50px; height:50px; border-radius:8px; overflow:hidden; cursor:pointer; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.15); transition:0.2s; }
+    .color-swatch img { width:100%; height:100%; object-fit:cover; }
+    .color-swatch.active { outline:3px solid #E07A7A; }
+    .size-btn { padding:8px 12px; border:1px solid #ddd; border-radius:8px; background:#fff; cursor:pointer; font-weight:600; transition:0.2s; }
+    .size-btn.active { background:#E07A7A; color:#fff; border-color:#E07A7A; }
+
+    /* ====== FOOTER ====== */
+    footer { background:#F08787; color:#fff; text-align:center; padding:40px 20px; margin-top:40px; }
+    .social-fixed { position: fixed; right: 20px; top: 40%; display:flex; flex-direction:column; gap:15px; z-index:999; }
+    .social-fixed a img { width:50px; height:50px; object-fit:contain; }
+
+    /* ====== BOTÓN SUBIR ====== */
+    #scrollTop { position:fixed; bottom:20px; right:20px; z-index:999; display:none; align-items:center; justify-content:center; width:50px; height:50px; background:#F08787; color:#fff; border-radius:50%; font-size:1.5em; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,0.2); transition:0.3s; }
+    #scrollTop:hover { background:#FFE8DB; color:#333; }
+
+    /* ====== RESPONSIVIDAD ====== */
+    @media(max-width:1024px){ .productos { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:800px){ .modal-content { flex-direction: column; max-width:92%; } nav a { margin:0 8px; } .productos { grid-template-columns:1fr; } }
+    @media(max-width:500px){ header { flex-direction:column; align-items:center; text-align:center; padding:15px; } .titulo { font-size:2.5em; } .logo img { width:110px; height:110px; } nav a { font-size:0.95em; display:block; margin:5px 0; } .card img { max-width:95%; } }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO CURVADO -->
+  <header>
+    <svg class="fondo-linea" viewBox="0 0 1600 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradCoral" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF8C8C" stop-opacity="0.1"/>
+          <stop offset="15%" stop-color="#FF8C8C" stop-opacity="0.5"/>
+          <stop offset="50%" stop-color="#FF8C8C" stop-opacity="0.6"/>
+          <stop offset="85%" stop-color="#FF8C8C" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#FF8C8C" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,140 C300,10 600,170 900,90 S1300,60 1600,140" />
+    </svg>
+
+    <div class="titulo-logo">
+      <h1 class="titulo">Junior D'Flores</h1>
+      <div class="logo">
+        <img src="logo/logo.png" alt="Logo de la tienda">
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ -->
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="mujer.html">Mujer</a>
+    <a href="hombre.html">Hombre</a>
+    <a href="kids.html">Kids</a>
+    <a href="ofertas.html">Ofertas</a>
+  </nav>
+
+  <!-- SECCIÓN DE PRODUCTOS -->
+  <section>
+    <h2>Blusas/Playeras Kids</h2>
+    <div class="productos">
+      <!-- Aquí van todas tus cards existentes -->
+      <!-- Se mantienen todas las que ya tienes, igual que en tu código original -->
+
+        <!-- Aquí van tus cards existentes -->
+        <!-- Ejemplo CARD 1 -->
+    <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA GLOBO CON MOÑO Y PERLA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/blusamoño.jpg,imagenes/moño1.jpg,imagenes/moño2.jpg,imagenes/moño3.jpg,imagenes/moño4.jpg,imagenes/moño5.jpg" 
+         data-tallas="CH:6-8,M:8-10,G:10-12">
+      <img src="imagenes/moño1.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA GLOBO CON MOÑO Y PERLA</p>
+      <p class="precio">$95</p>
+    </div>
+
+    <!-- Ejemplo CARD 2 -->
+    <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA CAMPESINA." 
+         data-precio="$90" 
+         data-imagenes="imagenes/c1.jpg,imagenes/c2.jpg,imagenes/c3.jpg,imagenes/c4.jpg,imagenes/c5.jpg,imagenes/c6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/c2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA CAMPESINA</p>
+      <p class="precio">$90</p>
+    </div>
+
+     <!-- Ejemplo CARD 3 -->
+    <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA CUELLO TORTUGA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/T1.jpg,imagenes/T2.jpg,imagenes/T3.jpg,imagenes/T4.jpg,imagenes/T5.jpg,imagenes/T6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/T2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA CUELLO TORTUGA</p>
+      <p class="precio">$95</p>
+    </div>
+
+        <!-- Ejemplo CARD 4 -->
+    <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA ARGOLLA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/A1.jpg,imagenes/A2.jpg,imagenes/A3.jpg,imagenes/A4.jpg,imagenes/A5.jpg,imagenes/A6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/A2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA ARGOLLA</p>
+      <p class="precio">$95</p>
+    </div>
+
+     <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA MOÑO CON PERLA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/P1.jpg,imagenes/P2.jpg,imagenes/P3.jpg,imagenes/P4.jpg,imagenes/P5.jpg,imagenes/P6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/P2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA MOÑO CON PERLA</p>
+      <p class="precio">$95</p>
+    </div>
+
+     <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA LARGA FLOR." 
+         data-precio="$95" 
+         data-imagenes="imagenes/F1.jpg,imagenes/F2.jpg,imagenes/F3.jpg,imagenes/F4.jpg,imagenes/F5.jpg,imagenes/F6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/F2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA LARGA FLOR</p>
+      <p class="precio">$95</p>
+    </div>
+
+     <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA 2 MOÑOS." 
+         data-precio="$95" 
+         data-imagenes="imagenes/M1.jpg,imagenes/M2.jpg,imagenes/M3.jpg,imagenes/M4.jpg,imagenes/M5.jpg,imagenes/M6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/M3.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA 2 MOÑOS</p>
+      <p class="precio">$95</p>
+    </div>
+
+      <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA LARGA CHERRY MOÑO." 
+         data-precio="$100" 
+         data-imagenes="imagenes/CM1.jpg,imagenes/CM2.jpg,imagenes/CM3.jpg,imagenes/CM4.jpg,imagenes/CM5.jpg,imagenes/CM6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/CM3.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA LARGA CHERRY MOÑO</p>
+      <p class="precio">$100</p>
+    </div>
+
+       <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA LARGA ESCAROLAS CURLY." 
+         data-precio="$95" 
+         data-imagenes="imagenes/E1.jpg,imagenes/E2.jpg,imagenes/E3.jpg,imagenes/E4.jpg,imagenes/E5.jpg,imagenes/E6.jpg,imagenes/E7.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/E2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA LARGA ESCAROLAS CURLY</p>
+      <p class="precio">$95</p>
+    </div>
+
+       <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA CADENA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/D1.jpg,imagenes/D3.jpg,imagenes/D4.jpg,imagenes/DE.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/D2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA CADENA</p>
+      <p class="precio">$95</p>
+    </div>
+
+      <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA LARGA AMARRE CAMPANA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/L1.jpg,imagenes/L2.jpg,imagenes/L3.jpg,imagenes/L4.jpg,imagenes/L5.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/L2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA LARGA AMARRE CAMPANA</p>
+      <p class="precio">$95</p>
+    </div>
+
+         <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA LARGA BALLERINA CAPUCCINA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/B1.jpg,imagenes/B2.jpg,imagenes/B3.jpg,imagenes/B4.jpg,imagenes/B5.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/B2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA LARGA BALLERINA CAPUCCINA</p>
+      <p class="precio">$95</p>
+    </div>
+
+       <div class="card" 
+         data-nombre="Blusa Kids" 
+         data-descripcion="BLUSA MANGA CORTA RAYAS ESCAROLA." 
+         data-precio="$95" 
+         data-imagenes="imagenes/MC.jpg,imagenes/MC1.jpg,imagenes/MC2.jpg,imagenes/MC3.jpg,imagenes/MC4.jpg,imagenes/MC5.jpg,imagenes/MC6.jpg" 
+         data-tallas="CH:6-8,M:8-10,M:10-12">
+      <img src="imagenes/MC2.jpg" alt="Blusa Kids">
+      <h3>Blusa</h3>
+      <p>BLUSA MANGA CORTA RAYAS ESCAROLA</p>
+      <p class="precio">$95</p>
+    </div>
+
+    </div>
+    </div>
+  </section>
+
+  <a class="back-btn" href="kids.html">← Regresar</a>
+
+  <!-- MODAL -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="carousel">
+        <img id="modalImg" src="" alt="">
+        <a class="prev">&#10094;</a>
+        <a class="next">&#10095;</a>
+      </div>
+      <div class="modal-details">
+        <h3 id="modalNombre"></h3>
+        <p id="modalDescripcion"></p>
+        <div><strong>Color:</strong><div class="colors" id="colorContainer"></div></div>
+        <div><strong>Tallas:</strong><div class="sizes" id="sizeContainer"></div></div>
+        <p class="precio" id="modalPrecio"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-fixed">
+      <a href="https://www.facebook.com/juniordflorescompany" target="_blank"><img src="logo/facebook.png" alt="Facebook"></a>
+      <a href="https://www.tiktok.com/@juniordflores?_t=ZS-8zcmsfaUGH4&_r=1" target="_blank"><img src="logo/tik-tok.png" alt="TikTok"></a>
+      <a href="tel:55 7981 3965"><img src="logo/whatsapp (2).png" alt="Teléfono"></a>
+    </div>
+  </footer>
+
+  <a href="#" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+  <script>
+    // Botón subir
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => { scrollTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+    scrollTopBtn.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top:0, behavior:'smooth' }); });
+
+    // Modal productos
+    const modal = document.getElementById("productModal");
+    const modalImg = document.getElementById("modalImg");
+    const modalNombre = document.getElementById("modalNombre");
+    const modalDescripcion = document.getElementById("modalDescripcion");
+    const modalPrecio = document.getElementById("modalPrecio");
+    const colorContainer = document.getElementById("colorContainer");
+    const sizeContainer = document.getElementById("sizeContainer");
+    const closeBtn = document.querySelector(".close");
+    let images = [], currentIndex = 0;
+
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        modal.style.display = "block";
+        modalNombre.textContent = card.dataset.nombre;
+        modalDescripcion.textContent = card.dataset.descripcion;
+        modalPrecio.textContent = card.dataset.precio;
+
+        images = card.dataset.imagenes.split(",");
+        currentIndex = 0;
+        modalImg.src = images[currentIndex];
+
+        colorContainer.innerHTML = "";
+        images.forEach((imgSrc, idx)=>{
+          const sw = document.createElement("div");
+          sw.className = "color-swatch" + (idx===0?" active":"");
+          const img = document.createElement("img");
+          img.src = imgSrc;
+          sw.appendChild(img);
+          sw.addEventListener("click", ()=>{
+            currentIndex = idx;
+            modalImg.src = imgSrc;
+            colorContainer.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('active'));
+            sw.classList.add("active");
+          });
+          colorContainer.appendChild(sw);
+        });
+
+        sizeContainer.innerHTML = "";
+        (card.dataset.tallas||"").split(",").forEach(t=>{
+          if(t.trim()){
+            const btn = document.createElement("button");
+            btn.className = "size-btn";
+            btn.textContent = t;
+            btn.addEventListener("click", ()=>{
+              sizeContainer.querySelectorAll('.size-btn').forEach(x=>x.classList.remove('active'));
+              btn.classList.add('active');
+            });
+            sizeContainer.appendChild(btn);
+          }
+        });
+      });
+    });
+
+    document.querySelector(".prev").addEventListener("click", ()=>{
+      if(images.length > 0){ currentIndex = (currentIndex - 1 + images.length) % images.length; modalImg.src = images[currentIndex]; }
+    });
+    document.querySelector(".next").addEventListener("click", ()=>{
+      if(images.length > 0){ currentIndex = (currentIndex + 1) % images.length; modalImg.src = images[currentIndex]; }
+    });
+
+    closeBtn.onclick = ()=> modal.style.display = "none";
+    window.onclick = e => { if(e.target == modal){ modal.style.display = "none"; } };
+  </script>
+
+</body>
+</html>
